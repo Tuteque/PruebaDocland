@@ -1,4 +1,4 @@
-<head>
+
 <!-- 
   DOCLAND.HTML - DOCUMENTACIÓN OPTIMIZADA
   
@@ -495,6 +495,12 @@
     console.log(window.location.href)
 
     localStorage.setItem('ultimaUrl', window.location.href);
+
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha ejecutado todo correctamente");
+    console.log("--------------------------------");
+    console.log("================================");
     
   };
   function generarCarrusel(id_div, peliculas, selectorReferencia, titulo="") {
@@ -526,6 +532,12 @@
       </div>
     </div>
     `;
+
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha ejecutado el carrusel");
+    console.log("--------------------------------");
+    console.log("================================");
 
     ref.insertAdjacentHTML('afterend', carruselHTML);
   }
@@ -582,6 +594,12 @@
     img.className = 'h-20 xl:h-24 object-contain'; // altura responsiva por ejemplo
 
     storeLogoLink.appendChild(img);
+
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha Cambiado el logo");
+    console.log("--------------------------------");
+    console.log("================================");
   }
 
   // Ocultar elementos específicos
@@ -624,7 +642,13 @@
     }
     let ocultar = document.querySelector('#website-header > div > div.flex.space-x-2.items-center.justify-end.relative.flex-none.unset_baseline > div.w-12');
     if(ocultar)
-      ocultar.style.display='none'  
+      ocultar.style.display='none' 
+    
+        console.log("================================");
+        console.log("--------------------------------");
+        console.log("Se ha ocultado elementos especificos");
+        console.log("--------------------------------");
+        console.log("================================");  
     }
 
 function showFecha() {
@@ -654,6 +678,11 @@ function showFecha() {
       }
     });
   }
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha ejecutado show-fecha");
+    console.log("--------------------------------");
+    console.log("================================");
 }
 
   // Crear contenedor para el landing
@@ -664,6 +693,11 @@ function showFecha() {
     existingElement.insertAdjacentHTML("beforebegin", `
       <div id="landing-div" class="landing-containers"></div>
     `);
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha ejecutado el contenedor landing");
+    console.log("--------------------------------");
+    console.log("================================");
   }
 
   // Configurar el carrusel de imágenes
@@ -681,6 +715,11 @@ function showFecha() {
       perView: 1,       // Número de diapositivas visibles
       gap: 10           // Espacio entre diapositivas
     }).mount();
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha ejecutado carrusel de imagenes");
+    console.log("--------------------------------");
+    console.log("================================");
   }
 
   // Hacer visibles los iconos de flecha derecha
@@ -689,6 +728,11 @@ function showFecha() {
     elements.forEach(element => {
       element.classList.remove('invisible');
     });
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ve visible los iconos de la derecha");
+    console.log("--------------------------------");
+    console.log("================================");
   }
 
   // Añadir botón "Unirse ahora" antes del reproductor de programa
@@ -706,6 +750,11 @@ function showFecha() {
         </a>
       </div>
     `);
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha ejecutado correctamente");
+    console.log("--------------------------------");
+    console.log("================================");
   }
 
   function hideLiUserName() {
@@ -729,6 +778,11 @@ function showFecha() {
     for (let i = total - 3; i < total; i++) {
       elementos[i].classList.remove('text-ds-muted');
     }
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha ocultado la lista del username");
+    console.log("--------------------------------");
+    console.log("================================");
   }
 
   function getCarouselHTMLFromData(data) {
@@ -775,6 +829,11 @@ function showFecha() {
         </div>
       </div>
     `;
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha ejecutado getCarouselHTMLFromData");
+    console.log("--------------------------------");
+    console.log("================================");
   }
   // Generar HTML del carrusel (extraído para mejorar legibilidad)
   function getCarouselHTML() {
@@ -854,6 +913,11 @@ function showFecha() {
         </div>
       </div>
     `;
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha generado el carrusel");
+    console.log("--------------------------------");
+    console.log("================================");
   }
 
   // Variables globales para elementos que se modificarán
@@ -876,6 +940,12 @@ function showFecha() {
     console.log(window.location.href)
     
     localStorage.setItem('ultimaUrl', window.location.href);
+
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha cargado todo el DOM");
+    console.log("--------------------------------");
+    console.log("================================");
   });
 
   // Sobrescribir el método pushState para recargar la página al cambiar la URL
@@ -886,6 +956,11 @@ function showFecha() {
       location.href = arguments[Object.keys(arguments).pop()];
       return originalPushState.apply(history, arguments);
     };
+    console.log("================================");
+    console.log("--------------------------------");
+    console.log("Se ha sobreescrito el metodo pushstate");
+    console.log("--------------------------------");
+    console.log("================================");
   }
 let vertical_done= 0;
   // Configurar el observador de mutaciones para detectar cambios en el DOM
@@ -2143,7 +2218,7 @@ function reorganizarFooter_() {
 
 </script>
 <style>
-  /* Estilos generales para las tarjetas */    .tarjeta {      background-color: #1a1a1a;      border-radius: 8px;      padding: 20px;      margin-bottom: 20px;      color: #fff;      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);    }        /* Estilo para títulos */    .section-title {      font-size: 18px;      font-weight: bold;      margin-bottom: 15px;      color: #fff;    }        /* Estilo para párrafos */    p {      color: #fff;      margin-bottom: 10px;      line-height: 1.5;    }  
+      /* Estilos generales para las tarjetas */    .tarjeta {      background-color: #1a1a1a;      border-radius: 8px;      padding: 20px;      margin-bottom: 20px;      color: #fff;      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);    }        /* Estilo para títulos */    .section-title {      font-size: 18px;      font-weight: bold;      margin-bottom: 15px;      color: #fff;    }        /* Estilo para párrafos */    p {      color: #fff;      margin-bottom: 10px;      line-height: 1.5;    }  
 .tarjetax{
 margin-top: 20px;
 }
@@ -2903,4 +2978,3 @@ max-height: 5rem;
     margin-bottom: 0px;
 }
 </style>
-</head>
