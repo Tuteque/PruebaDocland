@@ -1,5 +1,2925 @@
-<style> 
-  h1{ 
-    color: green; 
-  } 
+<!-- 
+  DOCLAND.HTML - DOCUMENTACIÓN OPTIMIZADA
+  
+  Este archivo contiene código JavaScript y CSS que modifica la apariencia y el comportamiento
+  de la plataforma DocLand. Las principales funcionalidades incluyen:
+  
+  1. Reemplazo del logo original por texto estilizado "DOC LAND"
+  2. Implementación de un icono de lupa en el header que abre un modal de búsqueda
+  3. Creación de un carrusel de imágenes con Glide.js
+  4. Modificaciones a diversos elementos de la página según el estado de inicio de sesión
+  5. Personalización de estilos CSS para adaptar la apariencia general
+-->
+
+<!-- Importación de estilos y scripts de Glide.js para el carrusel -->
+<link rel="stylesheet" href="https://unpkg.com/@glidejs/glide/dist/css/glide.theme.min.css">
+<link rel="stylesheet" href="https://unpkg.com/@glidejs/glide/dist/css/glide.core.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<!-- Glide.js JS -->
+<script src="https://unpkg.com/@glidejs/glide/dist/glide.min.js"></script>
+
+<script>
+ 
+
+  // Constantes para selectores DOM frecuentemente utilizados
+  const SELECTORS = {
+    STORE_LOGO: '#store-logo',
+    WEBSITE_HEADER: '#website-header',
+    CATALOG_FILTERS: '#catalog_filters',
+    CATALOG_CONTENT: '#catalog_content',
+    LANDING_DIV: '#landing-div',
+    PROGRAM_PLAYER: '#program_player',
+    PROGRAM_ABOUT: '#program_about',
+    PROGRAM_RELATED: '#program_related',
+    PROGRAM_CONTROLLER: '#program_controller',
+    SEARCH_BUTTON: '#search-button',
+    AVATAR_CONTAINER: '.relative.flex.items-center',
+    HEADER_BUTTONS: '.flex.space-x-2.items-center.justify-end.relative.flex-none',
+    DESCRIPTION: '.content-description.line-clamp-3.max-h-[60px].xl\\:line-clamp-[7].xl\\:max-h-[140px].xl\\:aria-expanded\\:line-clamp-[11].xl\\:aria-expanded\\:max-h-[220px]',
+    RELATED_TITLE: '.cbt-related-title.text-xl.font-medium',
+    RELATED_SUBTITLE: '.text-ds-default.text-ds-base-medium',
+    TRAILER: '.flex.flex-col.lg\\:flex-row.gap-x-12.mb-6.lg\\:mb-0',
+    TRAILER_IMAGE_CONTAINER: '.h-full.w-full.relative',
+    SHOW_MORE_BUTTON: '#program_about > div.mt-4.text-ds-small-regular > ds-button',
+    USER_NAME_SELECTOR: '#main-menu > a > div.flex.flex-col.gap-y-1 > div.text-xs.font-normal.leading-none.text-ds-default',
+    TITULOS_PELICULAS: 'swiper-slide > a.card-title > span'
+  };
+
+  const dialogos_docland = [
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/Akira Yoshino_B.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/Denis Mukwegue_B .png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/DOCLAND PLUS_CTA_B.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/Jane Goodal_B .png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/Joseph Stiglitz_B .png",
+      enlace: "#"
+    },
+        {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/Leymah Gbowee_B .png",
+      enlace: "#"
+    },
+      {
+        titulo: "",
+        imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/María Josefa Yzuel_B .png",
+        enlace: "#"
+      },
+      {
+        titulo: "",
+        imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/María Ressa_B .png",
+        enlace: "#"
+      },
+      {
+        titulo: "",
+        imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/Nadia Murad_B .png",
+        enlace: "#"
+      },
+          {
+        titulo: "",
+        imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/Pablo Jarillo-Herrero_B .png",
+        enlace: "#"
+      },
+   ];
+  const premios = [
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/BAFTA.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/BERNINALE.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/CANNES.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/EMMY.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/GOYA.png",
+      enlace: "#"
+    },
+        {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/OSCAR.png",
+      enlace: "#"
+    },
+    {
+        titulo: "",
+        imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/BAFTA.png",
+        enlace: "#"
+      },
+      {
+        titulo: "",
+        imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/BERNINALE.png",
+        enlace: "#"
+      },
+      {
+        titulo: "",
+        imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/CANNES.png",
+        enlace: "#"
+      },
+      {
+        titulo: "",
+        imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/EMMY.png",
+        enlace: "#"
+      },
+      {
+        titulo: "",
+        imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/GOYA.png",
+        enlace: "#"
+      },
+          {
+        titulo: "",
+        imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/premios/OSCAR.png",
+        enlace: "#"
+      },
+   ];
+  const comentarios = [
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/comentarios/op1.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/comentarios/op2.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/comentarios/op3.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/comentarios/op4.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/comentarios/op5.png",
+      enlace: "#"
+    },
+        {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/comentarios/op1.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/comentarios/op2.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/comentarios/op3.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/comentarios/op4.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/comentarios/op5.png",
+      enlace: "#"
+    },
+   ];
+  const ongs = [
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/OXFAM.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/ACCIÓN CONTRA EL HAMBRE.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/AMNISTÍA INTERNACIONAL.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/AYUDA EN ACCIÓN.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/GREEN PEACE.png",
+      enlace: "#"
+    },
+       {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/PLAN INTERNACIONAL.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/ACCIÓN CONTRA EL HAMBRE.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/AMNISTÍA INTERNACIONAL.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/AYUDA EN ACCIÓN.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/GREEN PEACE.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/OXFAM.png",
+      enlace: "#"
+    },
+     {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/ong/PLAN INTERNACIONAL.png",
+      enlace: "#"
+    },
+   ];
+  const directores = [
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/ASIF KAPADIA_B.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/ERROL MORRIS_B.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/HERNÁN ZIN_V02.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/KEN BURNS_B.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/LAURA POITRAS_B.png",
+      enlace: "#"
+    },
+     {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/MICHAEL MOORE_B.png",
+      enlace: "#"
+    },
+         {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/ORLANDO VON DIESEL_B.png",
+      enlace: "#"
+    },
+         {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/WERNER HERZOG_B.png",
+      enlace: "#"
+    },
+        {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/ASIF KAPADIA_B.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/ERROL MORRIS_B.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/HERNÁN ZIN_B.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/KEN BURNS_B.png",
+      enlace: "#"
+    },
+    {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/LAURA POITRAS_B.png",
+      enlace: "#"
+    },
+     {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/MICHAEL MOORE_B.png",
+      enlace: "#"
+    },
+         {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/ORLANDO VON DIESEL_B.png",
+      enlace: "#"
+    },
+         {
+      titulo: "",
+      imagen: "https://coserver-docland.cuevadelmero.duckdns.org/assets/directores/WERNER HERZOG_B.png",
+      enlace: "#"
+    },
+   ];  
+   
+   const data_carrusel= [
+   
+    {
+     "id": "baraka1992",
+     "imagen": "carrusel2/baraka.mp4"
+   }, 
+  {
+     "id": "",
+     "imagen": "carrusel2/honeland.mp4"
+   },
+  {
+     "id": "grizzlyman20051080pblurayx264aac-m3d-843c93",
+     "imagen": "carrusel2/gryzzly.mp4"
+   }, 
+    {
+     "id": "nacido_en_gaza-2014",
+     "imagen": "carrusel2/nazido en gaza.mp4"
+   },
+   {
+     "id": "marchofthepenguins20051080pblurayx264-ytsam-7bca8a",
+     "imagen": "carrusel2/EMPERADOR.mp4"
+   },
+   {
+     "id": "free-solo-trailer-national-geographic-c41cca",
+     "imagen": "carrusel2/FREE SOLO.mp4"
+   },
+   {
+     "id": "2020_documental_master-dfb372",
+     "imagen": "carrusel2/2020.mp4"
+   },
+     {
+     "id": "insidejob20101080pblurayx264yify-fa713d",
+     "imagen": "carrusel2/Inside job.mp4"
+   },
+   {
+     "id": "exit-through-the-gift-shop",
+     "imagen": "carrusel2/EXIT THROUGH.mp4"
+   },   
+   {
+     "id": "born-into-brothels-calcuttas-red-light-kids-2004-1080p-amzn-web-dl-x265-silence-f1f27a",
+     "imagen": "carrusel2/Los niños del barrio rojo.mp4"
+   },
+   {
+     "id": "video-de-whatsapp-2024-11-26-a-las-142221_afb02058-5f82bc",
+     "imagen": "carrusel2/MORIRPARACONTARLO.mp4"
+   }, 
+   {
+     "id": "blackfish-2013",
+     "imagen": "carrusel2/Blackfish.mp4"
+   }, 
+   {
+     "id": "",
+     "imagen": "carrusel2/fire of love.mp4"
+   },
+   {
+     "id": "for-sama",
+     "imagen": "carrusel2/SAMARA.mp4"
+   },
+   {
+     "id": "20daysinmariupol20231080pamznwebripddp51x26510bit-galaxyrg265-623b1f",
+     "imagen": "carrusel2/20 DIAS EN MARIUPOL_2705.mp4"
+   }
+
+ ];
+ const data_carrusel_= [
+   
+    {
+     "id": "baraka19921080pblurayx264-ytsam-58e231",
+     "imagen": "carrusel/BARAKA_BAJA.mp4"
+   }, 
+  {
+     "id": "",
+     "imagen": "carrusel/HONEY LAND CARRUSEL_BAJA.mp4"
+   },
+  {
+     "id": "grizzlyman20051080pblurayx264aac-m3d-843c93",
+     "imagen": "carrusel/GRIZZLY MAN.mp4"
+   }, 
+    {
+     "id": "nacido_en_gaza-2014",
+     "imagen": "carrusel/NACIDO EN GAZA_CARRUSEL.mp4"
+   },
+   {
+     "id": "marchofthepenguins20051080pblurayx264-ytsam-7bca8a",
+     "imagen": "carrusel/LA MARCHA DEL EMPERADOR 2.mp4"
+   },
+   {
+     "id": "free-solo-trailer-national-geographic-c41cca",
+     "imagen": "carrusel/FREE SOLO_baja.mp4"
+   },
+   {
+     "id": "",
+     "imagen": "carrusel/2020_CARRUSEL.mp4"
+   },
+   {
+     "id": "",
+     "imagen": "carrusel/BANSKY BAJA.mp4"
+   },
+   {
+     "id": "insidejob20101080pblurayx264yify-fa713d",
+     "imagen": "INSIDE JOB_BAJA.mp4"
+   },
+   {
+     "id": "20daysinmariupol20231080pamznwebripddp51x26510bit-galaxyrg265-623b1f",
+     "imagen": "XL_20 DÍAS EN MARIÚPOL.JPG"
+   }, 
+   {
+     "id": "taxi-to-the-dark-side-2007-720p10bitwebripx265-budgetbits-a3b7b5",
+     "imagen": "XL_2008_Taxi al lado oscuro.jpg"
+   }, 
+   {
+     "id": "oceans-4a60e3",
+     "imagen": "XL_2009_Océanos.png"
+   },   
+   {
+     "id": "exit-through-the-gift-shop-2010-1080p-bluray-x265-afm72-bece95",
+     "imagen": "XL_2010_Exit Through the Gift Shop.png"
+   },   
+   {
+     "id": "born-into-brothels-calcuttas-red-light-kids-2004-1080p-amzn-web-dl-x265-silence-f1f27a",
+     "imagen": "XL_2005_Los niños del barrio rojo (Born into Brothels).jpg"
+   },
+   {
+     "id": "video-de-whatsapp-2024-11-26-a-las-142221_afb02058-5f82bc",
+     "imagen": "XL_2017_Morir para contar.jpg"
+   },
+   {
+     "id": "thecove20091080pblurayx264-ytsam-536506",
+     "imagen": "XL_2010_The Cove.jpg"
+   },
+
+ ];
+  // Función que se ejecuta cuando la página ha terminado de cargar
+  window.onload = function() {
+    modifyLogo();
+    hideElements();
+    createLandingContainer();
+    setupCarousel();
+    showChevronIcons();
+    addJoinButton();
+    hideLiUserName();
+
+    console.log(window.location.href)
+
+    localStorage.setItem('ultimaUrl', window.location.href);
+    
+  };
+  function generarCarrusel(id_div, peliculas, selectorReferencia, titulo="") {
+    const ref = selectorReferencia; // document.querySelector(selectorReferencia);
+    if (!ref) return console.warn(`No se encontró el elemento: ${selectorReferencia}`);
+  if(document.getElementById(id_div))
+    return;
+    const carruselId = `carrusel-${Math.random().toString(36).substr(2, 9)}`;
+    let tituloHTML = '<div class="content-row">';
+    if(titulo!==""){
+        tituloHTML+=`<div class="category-flex">
+          <a class="category-title truncate" href="/#">${titulo}</a>
+        </div>`;
+    }
+    const carruselHTML = tituloHTML+`
+      <div class="carrusel-wrapper bg-black p-8" id="${id_div}">
+        <button class="flecha izquierda" onclick="document.getElementById('${carruselId}').scrollBy({ left: -300, behavior: 'smooth' })">&#8249;</button>
+        <button class="flecha derecha" onclick="document.getElementById('${carruselId}').scrollBy({ left: 300, behavior: 'smooth' })">&#8250;</button>
+        <div id="${carruselId}" class="flex space-x-4 overflow-x-auto ocultar-scroll scroll-smooth">
+          ${peliculas.map(pelicula => `
+            <a href="${pelicula.enlace}" class="flex-shrink-0 w-48 transition-all duration-300 hover:scale-105">
+              <div class="relative h-72_ rounded-lg border-2 border-transparent hover:border-yellow-400 overflow-hidden">
+                <img src="${pelicula.imagen}?id=2" alt="${pelicula.titulo}" class="movie-poster_ w-full h-full object-cover">
+              </div>
+              <p class="text-white text-center mt-2 text-sm">${pelicula.titulo}</p>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+    `;
+
+    ref.insertAdjacentHTML('afterend', carruselHTML);
+  }
+  // MODIFICACIÓN DEL LOGO: Reemplaza el logo original por texto estilizado "DOC LAND" function modifyLogo() {
+    function modifyLogo() {
+    let storeLogoLink = document.getElementById('store-logo');
+    if (!storeLogoLink) {
+        storeLogoLink = document.querySelector('body > div.flex.flex-col.min-h-screen > header > div > div > div > div');
+        if (!storeLogoLink) {
+
+            storeLogoLink = document.getElementsByClassName("flex sm:justify-start max-w-3xl max-h-12")[0];
+            if (!storeLogoLink) {
+            
+                return
+            }
+            if(document.querySelector("#submit-button")){
+              const btnReclamar =document.querySelector("#submit-button").querySelector("span");
+              if(btnReclamar){
+                  btnReclamar.innerText="Acceder a mi cuenta";
+              }
+            }
+        }
+          
+    }
+    // Eliminar la clase max-w-36 del enlace para permitir un tamaño personalizado
+    storeLogoLink.classList.remove('max-w-36');
+
+    // Buscar el div padre y eliminar la clase w-[8.75rem] para ajustar el ancho
+    const parentDiv = storeLogoLink.closest('div');
+    if (parentDiv) {
+      parentDiv.classList.remove('w-[8.75rem]');
+    }
+
+    // Eliminar la imagen existente del logo
+    storeLogoLink.querySelector('img')?.remove();
+
+    // Crear y añadir un nuevo span con el texto "DOC LAND" estilizado
+    /*
+    const span = document.createElement('span');
+    span.className = 'text-docland text-5xls font-extrabold tracking-wider';
+    span.style.fontFamily = '"Montserrat", sans-serif';
+    span.style.color = 'white';
+    span.textContent = 'DOC LAND';
+
+    storeLogoLink.appendChild(span);
+    */
+
+    const img = document.createElement('img');
+    img.src = 'https://coserver-docland.cuevadelmero.duckdns.org/assets/LOGO_DOCLAND_WHITE%20ALPHA.png';
+    img.alt = 'DOC LAND logo';
+    img.style.objectFit = 'contain';
+
+    // Puedes añadir clases de Tailwind si estás usándolo
+    img.className = 'h-20 xl:h-24 object-contain'; // altura responsiva por ejemplo
+
+    storeLogoLink.appendChild(img);
+  }
+
+  // Ocultar elementos específicos
+  function hideElements() {
+    const strPaquete = document.getElementsByClassName("text-ds-tiny-semi-bold-uppercase text-primary")[0];
+    const Total= document.getElementsByClassName("text-ds-large-semi-bold")[2];
+    if(Total){
+        if(Total.innerText==='Total'){
+            Total.innerText='Número';
+            document.getElementsByClassName("text-ds-large-semi-bold")[3].innerHTML="<input class='num_tarjeta' type='password'></input>";
+            document.getElementsByClassName("text-center mt-2 ")[0].classList.add("hidden");
+        }
+    }
+
+    if (strPaquete) {
+      strPaquete.style.display = "none";
+    }
+    // Ocultar el header en la página principal (actualmente comentado por la URL incorrecta)
+    if (location.href == 'https://docland.uscreen.ioss/') {
+      document.getElementById("website-header").style.display = "none";
+    }
+    
+    // Ocultar los filtros del catálogo
+    const catalogFilters = document.getElementById("catalog_filters");
+    if (catalogFilters) {
+      catalogFilters.style.display = "none";
+    }
+    let titulos_peliculas=document.getElementsByClassName("card-title")
+    console.log(titulos_peliculas)
+    for (let i = 0; i < titulos_peliculas.length; i++) {
+      console.log('añadiendo hidden a titulos_peliculas'+titulos_peliculas[i]) 
+      titulos_peliculas[i].classList.add('hidden');
+    }    
+    console.log(titulos_peliculas.length)
+    if(titulos_peliculas.length>0){
+      for (let i = 0; i < titulos_peliculas.length; i++) {
+        console.log('añadiendo hidden a titulos_peliculas'+titulos_peliculas[i]) 
+        titulos_peliculas[i].classList.add('hidden');
+      }
+    }
+    let ocultar = document.querySelector('#website-header > div > div.flex.space-x-2.items-center.justify-end.relative.flex-none.unset_baseline > div.w-12');
+    if(ocultar)
+      ocultar.style.display='none'  
+    }
+
+function showFecha() {
+  // Obtener y dividir el contenido del campo description
+  let data = document.getElementsByName("description")[0].content.split('::');
+  let titulo = document.getElementsByClassName("program-title")[0]? document.getElementsByClassName("program-title")[0]: document.querySelector("#program_about > h1");
+
+  if (titulo) {
+    // Crear un contenedor para los badges si no existe ya
+    let contenedor = titulo.querySelector('.info-badges');
+    if (!contenedor) {
+      contenedor = document.createElement('div');
+      contenedor.className = 'info-badges';
+      titulo.appendChild(contenedor);
+    }
+
+    // Limpiar contenido anterior si fuera necesario
+    contenedor.innerHTML = '';
+
+    // Crear un badge por cada fragmento
+    data.forEach(texto => {
+    if(texto!=""){
+      let badge = document.createElement('span');
+      badge.className = 'info-badge'; // Estilo personalizado
+      badge.textContent = texto.trim();
+      contenedor.appendChild(badge);
+      }
+    });
+  }
+}
+
+  // Crear contenedor para el landing
+  function createLandingContainer() {
+    const existingElement = document.getElementById("catalog_content");
+    if (!existingElement) return;
+
+    existingElement.insertAdjacentHTML("beforebegin", `
+      <div id="landing-div" class="landing-containers"></div>
+    `);
+  }
+
+  // Configurar el carrusel de imágenes
+  function setupCarousel() {
+    const landingDiv = document.getElementById("landing-div");
+    if (!landingDiv) return;
+
+    // Insertar HTML del carrusel
+    //landingDiv.insertAdjacentHTML("afterend", getCarouselHTML());
+    landingDiv.insertAdjacentHTML("afterend", getCarouselHTMLFromData(data_carrusel));
+    // Inicializar el carrusel con Glide.js
+    new Glide('.glide', {
+      type: 'carousel', // Tipo de carrusel
+      startAt: 0,       // Slide inicial
+      perView: 1,       // Número de diapositivas visibles
+      gap: 10           // Espacio entre diapositivas
+    }).mount();
+  }
+
+  // Hacer visibles los iconos de flecha derecha
+  function showChevronIcons() {
+    const elements = document.querySelectorAll('[name="chevron-right"]');
+    elements.forEach(element => {
+      element.classList.remove('invisible');
+    });
+  }
+
+  // Añadir botón "Unirse ahora" antes del reproductor de programa
+  function addJoinButton() {
+    const programAbout = document.getElementById("program_playerx");
+    if (!programAbout) return;
+
+    const programPlayer = document.getElementById("program_player");
+    if (!programPlayer) return;
+
+    programPlayer.insertAdjacentHTML("beforebegin", `
+      <div class="w-full lg:w-1/4 items-end flex-col flex">
+        <a href="/" class="px-8 py-3 bg-white hover:bg-gray-100 text-gray-900 rounded-md transition-colors duration-200 font-medium">
+          Unirse ahora
+        </a>
+      </div>
+    `);
+  }
+
+  function hideLiUserName() {
+    const esDispositivoMovil = /Mobi|Android/i.test(navigator.userAgent);
+    if (esDispositivoMovil) return; // Si es móvil, no hacemos nada
+
+    const listaContenedor = document.getElementsByClassName("flex flex-col space-y-1")[0];
+    if (!listaContenedor) return;
+
+    const elementos = listaContenedor.getElementsByTagName('li');
+    const total = elementos.length;
+
+    if (total < 6) return; // No hay suficientes elementos para aplicar la lógica
+
+    // Ocultar los 3 primeros
+    for (let i = 0; i < 3; i++) {
+      elementos[i].style.display = "none"; // o elementos[i].classList.add('hidden');
+    }
+
+    // A los 3 últimos quitar clase 'text-ds-muted'
+    for (let i = total - 3; i < total; i++) {
+      elementos[i].classList.remove('text-ds-muted');
+    }
+  }
+
+  function getCarouselHTMLFromData(data) {
+    //const baseURL = "https://docland.uscreen.io/programs/";
+    const baseURL = "https://doclandplus.com/programs/";
+    const assetURL = "https://coserver-docland.cuevadelmero.duckdns.org/assets/";
+  
+  const slidesHTML = data.map((item) => {
+    const fullAssetURL = `${assetURL}${item.imagen}`;
+    const isVideo = fullAssetURL.endsWith(".mp4");
+
+    const mediaHTML = isVideo
+      ? `<video autoplay muted loop playsinline>
+           <source src="${fullAssetURL}" type="video/mp4">
+           Tu navegador no soporta video HTML5.
+         </video>`
+      : `<img src="${fullAssetURL}" alt="${item.id}">`;
+
+    return `
+      <li class="glide__slide">
+        <a href="${baseURL}${item.id}">
+          ${mediaHTML}
+        </a>
+      </li>
+    `;
+  }).join("");
+  
+    const bulletsHTML = data.map((_, index) => `
+      <button class="glide__bullet" data-glide-dir="=${index}"></button>
+    `).join("");
+  
+    return `
+      <div class="glide">
+        <div class="glide__track" data-glide-el="track">
+          <ul class="glide__slides">
+            ${slidesHTML}
+          </ul>
+        </div>
+        <div class="glide__arrows" data-glide-el="controls">
+          <button class="glide__arrow glide__arrow--left" data-glide-dir="<"><</button>
+          <button class="glide__arrow glide__arrow--right" data-glide-dir=">">></button>
+        </div>
+        <div class="glide__bullets" data-glide-el="controls[nav]">
+          ${bulletsHTML}
+        </div>
+      </div>
+    `;
+  }
+  // Generar HTML del carrusel (extraído para mejorar legibilidad)
+  function getCarouselHTML() {
+    return `
+      <div class="glide">
+        <div class="glide__track" data-glide-el="track">
+          <ul class="glide__slides">
+            <li class="glide__slide">
+              <a href="https://docland.uscreen.io/programs/murder_on_a_sunday_morning___xumo_play-79040f?category_id=237601">
+                <img src="https://coserver-docland.cuevadelmero.duckdns.org/assets/H_2002_Unculpableideal.jpg">
+              </a>
+            </li>
+            <li class="glide__slide">
+              <a href="https://docland.uscreen.io/programs/bowlingforcolumbine20021080pblurayx264-ytsam-5738bc">
+                <img src="https://coserver-docland.cuevadelmero.duckdns.org/assets/H_2003_BowlingforColumbine.jpg">
+              </a>
+            </li>
+            <li class="glide__slide">
+              <a href="https://docland.uscreen.io/programs/born-into-brothels-calcuttas-red-light-kids-2004-1080p-amzn-web-dl-x265-silence-f1f27a">
+                <img src="https://coserver-docland.cuevadelmero.duckdns.org/assets/H_2005_Losninosdelbarriorojo.jpg">
+              </a>
+            </li>
+            <li class="glide__slide">
+              <a href="https://docland.uscreen.io/programs/marchofthepenguins20051080pblurayx264-ytsam-7bca8a">
+                <img src="https://coserver-docland.cuevadelmero.duckdns.org/assets/H_2006_Elviajedelemperador.jpg">
+              </a>
+            </li>
+            <li class="glide__slide">
+              <a href="https://docland.uscreen.io/programs/aninconvenienttruth2006720pweb-dldd51h264bs-80c15c">
+                <img src="https://coserver-docland.cuevadelmero.duckdns.org/assets/H_2007_Unaverdadincomoda.jpg">
+              </a>
+            </li>
+            <li class="glide__slide">
+              <a href="https://docland.uscreen.io/programs/taxi-to-the-dark-side-2007-720p10bitwebripx265-budgetbits-a3b7b5">
+                <img src="https://coserver-docland.cuevadelmero.duckdns.org/assets/H_2008_Taxialladooscuro.jpg">
+              </a>
+            </li>
+            <li class="glide__slide">
+              <a href="https://docland.uscreen.io/programs/thecove20091080pblurayx264-ytsam-536506">
+                <img src="https://coserver-docland.cuevadelmero.duckdns.org/assets/H_2010_TheCove.jpg">
+              </a>
+            </li>
+            <li class="glide__slide">
+              <a href="https://docland.uscreen.io/programs/amy-2015-1080p-bluray-x265-silence-539cc9">
+                <img src="https://coserver-docland.cuevadelmero.duckdns.org/assets/H_2016_Amy.jpg">
+              </a>
+            </li>
+            <li class="glide__slide">
+              <a href="https://docland.uscreen.io/programs/video-de-whatsapp-2024-11-26-a-las-142221_afb02058-5f82bc">
+                <img src="https://coserver-docland.cuevadelmero.duckdns.org/assets/H_2017_Morirparacontar.jpg">
+              </a>
+            </li>
+            <li class="glide__slide">
+              <a href="https://docland.uscreen.io/programs/navalny20221080pwebripx265-rarbg-63d0ec">
+                <img src="https://coserver-docland.cuevadelmero.duckdns.org/assets/H_2023_Navalny.jpg">
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Controles opcionales -->
+        <div class="glide__arrows" data-glide-el="controls">
+          <button class="glide__arrow glide__arrow--left" data-glide-dir="<">‹</button>
+          <button class="glide__arrow glide__arrow--right" data-glide-dir=">">›</button>
+        </div>
+        <div class="glide__bullets" data-glide-el="controls[nav]">
+          <button class="glide__bullet" data-glide-dir="=0"></button>
+          <button class="glide__bullet" data-glide-dir="=1"></button>
+          <button class="glide__bullet" data-glide-dir="=2"></button>
+          <button class="glide__bullet" data-glide-dir="=3"></button>
+          <button class="glide__bullet" data-glide-dir="=4"></button>
+          <button class="glide__bullet" data-glide-dir="=5"></button>
+          <button class="glide__bullet" data-glide-dir="=6"></button>
+          <button class="glide__bullet" data-glide-dir="=7"></button>
+          <button class="glide__bullet" data-glide-dir="=8"></button>
+          <button class="glide__bullet" data-glide-dir="=9"></button>
+        </div>
+      </div>
+    `;
+  }
+
+  // Variables globales para elementos que se modificarán
+  let programPlayer, trailer, program_about, program_buttons, the_description;
+
+  // Evento que se ejecuta cuando el DOM está completamente cargado
+  document.addEventListener("DOMContentLoaded", function() {
+    programPlayer = document.getElementById("program_player");
+    
+    // Sobrescribir el método pushState para recargar la página al cambiar la URL
+    overrideHistoryPushState();
+    
+    // Configurar el observador de mutaciones para detectar cambios en el DOM
+    setupMutationObserver();
+    
+    // Crear el icono de búsqueda en el header
+    createSearchIcon();
+    mostrar_listadoCategorias();
+
+    console.log(window.location.href)
+    
+    localStorage.setItem('ultimaUrl', window.location.href);
+  });
+
+  // Sobrescribir el método pushState para recargar la página al cambiar la URL
+  function overrideHistoryPushState() {
+    const originalPushState = history.pushState;
+    history.pushState = function(state) {
+      console.log('La URL ha cambiado (pushState).');
+      location.href = arguments[Object.keys(arguments).pop()];
+      return originalPushState.apply(history, arguments);
+    };
+  }
+let vertical_done= 0;
+  // Configurar el observador de mutaciones para detectar cambios en el DOM
+  function setupMutationObserver() {
+    let related_done = false;
+    
+    const targetNode = document.body;
+    
+    if (!targetNode) {
+      console.error("❌ Nodo objetivo no encontrado.");
+      doTheMagic();
+      return;
+    }
+    
+    console.log("El elemento <ds-avatar> NO existe.");
+    
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach(() => {
+        try {
+          // Modificar el contenido relacionado para que sea horizontal
+          if (!related_done) {
+            const turboFrame = document.getElementById("program_related");
+            if (turboFrame) {
+              turboFrame.src = turboFrame.src.split("?")[0] + "?horizontal=true";
+              
+              // Usar un enfoque más seguro para encontrar el contenedor relacionado
+              const containers = document.getElementsByClassName("w-full");
+              for (let i = 0; i < containers.length; i++) {
+                const container = containers[i];
+                if (container.classList.contains("items-end") && 
+                    container.classList.contains("flex-col") && 
+                    container.classList.contains("flex")) {
+                  // Este es probablemente el contenedor que buscamos
+                  container.classList.remove("lg:w-1/4");
+                  break;
+                }
+              }
+              
+              related_done = true;
+              console.log("✅ program_related modificado una vez");
+            }
+                if (document.getElementById("datos-json")) {
+                  generarContenidoDesdeJson();
+                  
+                }
+            
+          }
+
+        } catch(e) {
+          console.log(e);
+        }
+        
+        observer.disconnect();
+        
+        try {
+          doTheMagic();
+          let ocultar = document.getElementsByClassName('line-clamp-2');
+            for (let i = 0; i < ocultar.length; i++) {
+              ocultar[i].classList.add('hidden');
+            }
+            ocultar = document.getElementsByClassName('content-card-badge');
+            for (let i = 0; i < ocultar.length; i++) {
+              ocultar[i].classList.add('hidden');
+            }
+            ocultar = document.getElementsByClassName('content-categories');
+            for (let i = 0; i < ocultar.length; i++) {
+              ocultar[i].classList.add('hidden');
+            }  
+            ocultar = document.querySelector('#website-header > div > div.flex.space-x-2.items-center.justify-end.relative.flex-none.unset_baseline > div.w-12');
+            if(ocultar)
+              ocultar.style.display='none'   
+          if(vertical_done<1000000){
+            mostrar_verticales();
+            vertical_done++;
+            console.log("✅ Vertical hecho");
+          }  
+                            
+            //mostrar_verticales();
+        } finally {
+          observer.observe(targetNode, { childList: true, subtree: true });
+        }
+      });
+      
+      if (programPlayer) {
+        programPlayer.style.display = "block";
+      }
+      
+    });
+    
+    observer.observe(targetNode, { childList: true, subtree: true });
+  }
+
+function generarContenidoDesdeJson() {
+  // Evita ejecutar dos veces
+  if (document.getElementById("bloque-generado-desde-json")) return;
+
+  const rawJsonTag = document.getElementById("datos-json");
+  console.log(rawJsonTag)
+  const destino = document.getElementById("film_description");
+  if (!rawJsonTag || !destino) return;
+
+  let data;
+  try {
+    data = JSON.parse(rawJsonTag.textContent);
+  } catch (e) {
+    console.error("JSON mal formado en <script id='datos-json'>");
+    return;
+  }
+
+// Contenedor principal
+
+const container = document.createElement("div");
+container.id = "bloque-generado-desde-json";
+container.className = "flex flex-col gap-y-6"; // Cambiado a columna para las filas
+
+// === PRIMERA FILA ===
+const primeraFila = document.createElement("div");
+primeraFila.className = "flex flex-wrap lg:flex-nowrap lg:gap-x-4 items-stretch items-stretch-force";
+
+// Sinopsis (60%)
+const sinopsis = document.createElement("div");
+sinopsis.className = "hmax flex-60 overflow-visible tarjeta the_program_about";
+sinopsis.id = "the_program_about_";
+sinopsis.style = "margin-bottom: 0px";
+
+if (data.sinopsis) {
+  const parrafos = Array.isArray(data.sinopsis.contenido)
+    ? data.sinopsis.contenido.map(p => `<p class="sinposis_p">${p}</p>`).join("")
+    : `<p class="sinposis_p">${data.sinopsis.contenido}</p>`;
+
+  sinopsis.innerHTML = `
+    <h2 class="section-title">${data.sinopsis.titulo}</h2>
+    <div id="program_description_block" class="w-full">
+      <ds-show-more lines="35" float="left" show-more-title="Mostrar más" show-less-title="Mostrar menos">
+        <div class="content-description program-description-text" slot="content" data-area="about-description" data-controller="timestamp">
+          <div class="editor-content">
+            ${parrafos}
+          </div>
+        </div>
+      </ds-show-more>
+    </div>
+  `;
+}
+
+// Patrocinador (40%)
+const patrocinador = document.createElement("div");
+patrocinador.className = "hmax flex-40 tarjeta tarjetaPatrocinador";
+patrocinador.id = "patrocinador";
+
+if (data.patrocinador) {
+  patrocinador.innerHTML = `
+    <div id="txt-entra">
+      <h2>Call to action</h2>
+      <div class="img_patro btn_patrocinador">
+        <a class="mb-5" part="button" data-ajax="false" target="_blank" href="${data.patrocinador.enlace}">
+          <img class="logo_ong" src="${data.patrocinador.logo}" alt="${data.patrocinador.alt}">
+        </a>
+        <p>${data.patrocinador.texto}</p>
+      </div>
+    </div>
+  `;
+}
+
+primeraFila.appendChild(sinopsis);
+primeraFila.appendChild(patrocinador);
+
+// === SEGUNDA FILA ===
+const segundaFila = document.createElement("div");
+segundaFila.className = "flex flex-wrap lg:flex-nowrap lg:gap-x-4 items-stretch items-stretch-force ";
+
+// Dirección (40%)
+const direccion = document.createElement("div");
+direccion.className = "hmax flex-40 tarjeta";
+
+if (data.sinopsis) {
+  let contenido = '<h2 class="section-title">Ficha técnica</h2><div class="editor-content"><p>';
+  if (data.sinopsis.direccion) {
+    contenido += `<br><strong>Dirección:</strong> ${data.sinopsis.direccion}`;
+  }
+  if (data.sinopsis.reparto) {
+    //contenido += `<p><strong>Reparto:</strong> ${data.sinopsis.reparto}</p>`;
+  }
+  if (data.sinopsis.pais) {
+    contenido += `<br><strong>Pais:</strong> ${data.sinopsis.pais}`;
+  }
+  if (data.sinopsis.duracion) {
+    contenido += `<br><strong>Duración:</strong> ${data.sinopsis.duracion}`;
+  }
+  if (data.sinopsis.idioma) {
+    contenido += `<br><strong>Idioma:</strong> ${data.sinopsis.idioma}`;
+  }
+  if (data.sinopsis.genero) {
+    contenido += `<br><strong>Género:</strong> ${data.sinopsis.genero}`;
+  }
+  if (data.sinopsis.produccion) {
+    contenido += `<br><strong>Género:</strong> ${data.sinopsis.produccion}`;
+  }
+  if (data.sinopsis.premios) {
+    contenido += `<br><strong>Premios:</strong> ${data.sinopsis.premios}`;
+  }    
+  contenido += '<p></div>';
+  direccion.innerHTML = contenido;
+}
+
+// Crítica (60%)
+const critica = document.createElement("div");
+critica.className = "hmax flex-60 tarjeta";
+critica.id = "critica";
+
+if (data.critica) {
+  critica.innerHTML+= `
+    <h2 class="section-title">Critica</h2>
+  `;
+  const criticas=data.critica;
+  if( criticas && Array.isArray(criticas)){
+  criticas.forEach(criticacion => {
+  critica.innerHTML+= `
+    <h2 class="section-title hidden">${criticacion.titulo}</h2><br>
+    <p>"${criticacion.contenido}"</p>
+    <p><strong>${criticacion.firma || ""}</strong></p>
+  `;
+    });
+  }
+  else {
+      critica.innerHTML += `
+      <h2 class="section-title hidden">${data.critica.titulo}</h2>
+      <p>${data.critica.contenido}</p>
+      <p><strong>${data.critica.firma || ""}</strong></p>
+    `;
+  }
+  
+}
+
+segundaFila.appendChild(direccion);
+segundaFila.appendChild(critica);
+
+// Ensamblar todo
+container.appendChild(primeraFila);
+container.appendChild(segundaFila);
+destino.appendChild(container);
+
+  // === LISTADO DE VÍDEOS INFERIOR ===
+  {
+    const seccionVideos = document.createElement("div");
+    seccionVideos.className = "w-full mt-12";
+    seccionVideos.id = "bloque-listado-videos";
+
+    const titulo = document.createElement("div");
+    titulo.className = "text-center mb-8 tarjetax";
+    titulo.innerHTML = `
+      <h2 class="text-2xl font-bold text-white">Diálogos DOC LAND</h2>
+      <p class="text-white text-base mt-2 hidden">Aprende más con nuestros expertos</p>
+    `;
+    seccionVideos.appendChild(titulo);
+
+    const listado = document.createElement("div");
+    listado.className = "grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto px-4";
+    console.log("Hay videos que mostrar?")
+    console.log(data.videos && Array.isArray(data.videos))
+    const videos = data.videos && Array.isArray(data.videos) && data.videos.length>0
+      ? data.videos
+      : [
+          {
+            "titulo": "Ampliar la ecuación de la vida",
+            "descripcion": "Hernán Zin entrevista a Juan Pérez y diversos.",
+            "video_url": "https://www.youtube.com/embed/aaZGX0cRZ8o?si=8X61uayLEBcHa-aY",
+            "img": "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/Jane Goodal.jpg"
+          },
+          {
+            "titulo": "Voces por una causa",
+            "descripcion": "Hernán Zin entrevista a Julia Navarro.",
+            "video_url": "https://www.youtube.com/embed/FhgLZJI81SA?si=3SsMryD8rRlZMAj0",
+            "img": "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/Denis Mukwege.jpg"
+          }
+        ];
+        console.log(videos)
+videos.forEach(video => {
+  const tarjeta = document.createElement("div");
+  tarjeta.className = "tarjeta-video"; // El contenedor ya maneja el grid
+  tarjeta.innerHTML = `
+    <div class="w-full aspect-video overflow-hidden">
+      <img 
+        src="${video.img}" 
+        alt="${video.titulo}" 
+        class="w-full h-full object-cover rounded-lg shadow"
+      >
+    </div>
+    <div class="text-white hidden">
+      <h3 class="text-xl font-bold mb-2">${video.titulo}</h3>
+      <p class="text-base">${video.descripcion}</p>
+    </div>
+  `;
+
+  tarjeta.innerHTML_video = `
+    <div class="w-full aspect-video">
+      <iframe 
+        src="${video.video_url}" 
+        frameborder="0" 
+        allowfullscreen 
+        class="w-full h-full rounded-lg shadow">
+      </iframe>
+    </div>
+    <div class="text-white hidden">
+      <h3 class="text-xl font-bold mb-2">${video.titulo}</h3>
+      <p class="text-base">${video.descripcion}</p>
+    </div>
+  `;
+  listado.appendChild(tarjeta);
+});
+
+    seccionVideos.appendChild(listado);
+
+    programBlock = document.getElementById("program_about");
+    div_nologeado = document.getElementsByClassName("div_nologeado");
+    console.log(programBlock)
+    console.log(div_nologeado[0])
+    const showMoreButton = document.querySelector(SELECTORS.SHOW_MORE_BUTTON);
+    
+    if (showMoreButton ) {
+      programBlock.insertAdjacentHTML("afterend", seccionVideos.outerHTML);
+      console.log('Insertamos despues de program_About')
+    }
+    else {
+      programBlock = document.getElementById("program_description_block");
+      if (programBlock) {
+      console.log('Insertamos despues de program_description_block')
+        programBlock.insertAdjacentHTML("afterend", seccionVideos.outerHTML);
+      }
+    }
+  }
+}
+
+function generarContenidoDesdeJson_() {
+  // Evita ejecutar dos veces
+  if (document.getElementById("bloque-generado-desde-json")) return;
+
+  const rawJsonTag = document.getElementById("datos-json");
+  const destino = document.getElementById("film_description");
+  if (!rawJsonTag || !destino) return;
+
+  let data;
+  try {
+    data = JSON.parse(rawJsonTag.textContent);
+  } catch (e) {
+    console.error("JSON mal formado en <script id='datos-json'>");
+    return;
+  }
+
+  // Contenedor principal
+  const container = document.createElement("div");
+  container.id = "bloque-generado-desde-json";
+  container.className = "flex flex-wrap lg:flex-nowrap lg:gap-x-4 items-start";
+
+  // === SINOPSIS ===
+  const izquierda = document.createElement("div");
+  izquierda.className = "w-full lg:flex-[0_0_60%] overflow-visible tarjeta the_program_about";
+  izquierda.id = "the_program_about_";
+  izquierda.style="margin-bottom: 0px"
+  if (data.sinopsis) {
+    const parrafos = Array.isArray(data.sinopsis.contenido)
+      ? data.sinopsis.contenido.map(p => `<p class="sinposis_p">${p}</p>`).join("")
+      : `<p class="sinposis_p">${data.sinopsis.contenido}</p>`;
+
+    const direccion = data.sinopsis.direccion
+      ? `<p><strong>Dirección:</strong> ${data.sinopsis.direccion}</p>`
+      : "";
+
+    /*const reparto = data.sinopsis.reparto
+      ? `<p class ="hidden"><strong>Reparto:</strong> ${data.sinopsis.reparto}</p>`
+      : ""; */
+    const reparto = data.sinopsis.premios
+      ? `<p class><strong>Premios:</strong> ${data.sinopsis.premios}</p>`
+      : "";
+    izquierda.innerHTML = `
+      <h2 class="section-title">${data.sinopsis.titulo}</h2>
+      <div id="program_description_block" class="w-full">
+        <ds-show-more lines="35" float="left" show-more-title="Mostrar más" show-less-title="Mostrar menos">
+          <div class="content-description program-description-text" slot="content" data-area="about-description" data-controller="timestamp">
+            <div class="editor-content">
+              ${parrafos}
+              ${direccion}
+              ${reparto}
+            </div>
+          </div>
+        </ds-show-more>
+      </div>
+    `;
+  }
+
+  // === DERECHA ===
+  const derecha = document.createElement("div");
+  derecha.className = "w-full lg:flex-[0_0_40%] flex flex-col space-y-6 div_derecha";
+
+  // PATROCINADOR
+  if (data.patrocinador) {
+    const patrocinador = document.createElement("div");
+    patrocinador.id = "patrocinador";
+    patrocinador.className = "tarjeta";
+    patrocinador.innerHTML = `
+      <div id="txt-entra">
+        <h2>Call to action</h2>
+      <div class="img_patro btn_patrocinador">
+      <a class="mb-5" part="button" data-ajax="false" target="_blank" href="${data.patrocinador.enlace}">
+        <img class='logo_ong' src="${data.patrocinador.logo}" alt="${data.patrocinador.alt}">
+      </a>
+      <p>${data.patrocinador.texto}</p>
+      </div>
+    `;
+    derecha.appendChild(patrocinador);
+  }
+
+  // CRÍTICA
+  if (data.critica) {
+    const critica = document.createElement("div");
+    critica.id = "critica";
+    critica.className = "tarjeta";
+    critica.innerHTML = `
+      <h2 class="section-title">${data.critica.titulo}</h2>
+      <p>${data.critica.contenido}</p>
+      <p><strong>${data.critica.firma || ""}</strong></p>
+    `;
+    derecha.appendChild(critica);
+  }
+
+  // Ensamblar y añadir dentro de #film_description
+  container.appendChild(izquierda);
+  container.appendChild(derecha);
+  destino.appendChild(container);
+
+  // === LISTADO DE VÍDEOS INFERIOR ===
+  {
+    const seccionVideos = document.createElement("div");
+    seccionVideos.className = "w-full mt-12";
+    seccionVideos.id = "bloque-listado-videos";
+
+    const titulo = document.createElement("div");
+    titulo.className = "text-center mb-8 tarjetax";
+    titulo.innerHTML = `
+      <h2 class="text-2xl font-bold text-white">Los diálogos de DOC LAND</h2>
+      <p class="text-white text-base mt-2 hidden">Aprende más con nuestros expertos</p>
+    `;
+    seccionVideos.appendChild(titulo);
+
+    const listado = document.createElement("div");
+    listado.className = "grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto px-4";
+    console.log("Hay videos que mostrar?")
+    console.log(data.videos && Array.isArray(data.videos))
+    const videos = data.videos && Array.isArray(data.videos) && data.videos.length>0
+      ? data.videos
+      : [
+          {
+            "titulo": "Ampliar la ecuación de la vida",
+            "descripcion": "Hernán Zin entrevista a Juan Pérez y diversos.",
+            "video_url": "https://www.youtube.com/embed/aaZGX0cRZ8o?si=8X61uayLEBcHa-aY",
+            "img": "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/Jane Goodal.jpg"
+          },
+          {
+            "titulo": "Voces por una causa",
+            "descripcion": "Hernán Zin entrevista a Julia Navarro.",
+            "video_url": "https://www.youtube.com/embed/FhgLZJI81SA?si=3SsMryD8rRlZMAj0",
+            "img": "https://coserver-docland.cuevadelmero.duckdns.org/assets/dialogos_docland/Denis Mukwege.jpg"
+          }
+        ];
+        console.log(videos)
+videos.forEach(video => {
+  const tarjeta = document.createElement("div");
+  tarjeta.className = "tarjeta-video"; // El contenedor ya maneja el grid
+  tarjeta.innerHTML = `
+    <div class="w-full aspect-video overflow-hidden">
+      <img 
+        src="${video.img}" 
+        alt="${video.titulo}" 
+        class="w-full h-full object-cover rounded-lg shadow"
+      >
+    </div>
+    <div class="text-white hidden">
+      <h3 class="text-xl font-bold mb-2">${video.titulo}</h3>
+      <p class="text-base">${video.descripcion}</p>
+    </div>
+  `;
+
+  tarjeta.innerHTML_video = `
+    <div class="w-full aspect-video">
+      <iframe 
+        src="${video.video_url}" 
+        frameborder="0" 
+        allowfullscreen 
+        class="w-full h-full rounded-lg shadow">
+      </iframe>
+    </div>
+    <div class="text-white hidden">
+      <h3 class="text-xl font-bold mb-2">${video.titulo}</h3>
+      <p class="text-base">${video.descripcion}</p>
+    </div>
+  `;
+  listado.appendChild(tarjeta);
+});
+
+    seccionVideos.appendChild(listado);
+
+    programBlock = document.getElementById("program_about");
+    div_nologeado = document.getElementsByClassName("div_nologeado");
+    console.log(programBlock)
+    console.log(div_nologeado[0])
+    const showMoreButton = document.querySelector(SELECTORS.SHOW_MORE_BUTTON);
+    
+    if (showMoreButton ) {
+      programBlock.insertAdjacentHTML("afterend", seccionVideos.outerHTML);
+      console.log('Insertamos despues de program_About')
+    }
+    else {
+      programBlock = document.getElementById("program_description_block");
+      if (programBlock) {
+      console.log('Insertamos despues de program_description_block')
+        programBlock.insertAdjacentHTML("afterend", seccionVideos.outerHTML);
+      }
+    }
+  }
+}
+  // FUNCIÓN PRINCIPAL DE MODIFICACIONES
+  function doTheMagic() {
+    insertarPatrocinadores(patrocinadores);
+    handleUserLoginState();
+    showUserName();
+    let rowscategorias = document.getElementsByClassName("content-row")
+    /*generarCarrusel("comentarios", comentarios, "#catalog_content > div > div:nth-child(4)");
+    generarCarrusel("ongs", ongs, "#catalog_content > div > div:nth-child(7)");
+    generarCarrusel("directores", directores, "#catalog_content > div > div:nth-child(10)");*/
+    
+    generarCarrusel("dialogos_docland", dialogos_docland, rowscategorias[3], 'Diálogos Doc Land');
+    generarCarrusel("comentarios", comentarios, rowscategorias[6], 'Comentarios');
+    generarCarrusel("ongs", ongs, rowscategorias[9], 'Call to action');
+    
+    
+    //</ds-avatar>generarCarrusel("comentarios", comentarios, rowscategorias[5], 'Comentarios');
+    //generarCarrusel("ongs", ongs, rowscategorias[7]);
+    generarCarrusel("directores", directores, rowscategorias[13], 'Directores');    
+    //generarCarrusel("premiecitos", premios, rowscategorias[9], 'Premios');
+    // Modificaciones específicas para páginas de programas
+    //if (location.href != 'https://docland.uscreen.io/') {
+    if (location.href != 'https://doclandplus.com/') {
+      modifyTrailer();
+      modifyProgramButtons();
+      removeDescriptionHeightLimits();
+      addActionBanner();
+      changeRelatedText();
+      hideSpecificElements();
+    }
+
+
+    
+    removeTopMargin();
+    changeShowMoreText();
+
+
+    //mostrar_verticales();
+  }
+
+  // Manejar el estado de inicio de sesión del usuario
+  function handleUserLoginState() {
+    const headerButtons = document.querySelector(SELECTORS.HEADER_BUTTONS);
+    if (!headerButtons) {
+      console.log("No hay headerButtons")
+      return;
+    }
+    
+    const loggedIn = headerButtons.querySelector('ds-button.hidden.lg\\:block');
+    
+    if (loggedIn) {
+      headerButtons.style.display = "none";
+    } else {
+      headerButtons.style.display = "flex";
+      headerButtons.classList.add('unset_baseline');
+    }
+  }
+
+  // Mostrar nombre de usuario junto al avatar
+  function showUserName() {
+    if(document.getElementsByName("burger")[0])
+      document.getElementsByName("burger")[0].classList.add('hidden')
+    if(document.getElementsByName("cross")[0])
+      document.getElementsByName("cross")[0].remove()
+    
+    let backgroundUser =document.querySelector('#website-header > div > div.flex.space-x-2.items-center.justify-end.relative.flex-none.unset_baseline > div.relative.flex.items-center > label.cursor-pointer.flex.items-center.justify-center.p-2.rounded.bg-ds-subtle');
+    if(backgroundUser)
+      document.querySelector('#website-header > div > div.flex.space-x-2.items-center.justify-end.relative.flex-none.unset_baseline > div.relative.flex.items-center > label.cursor-pointer.flex.items-center.justify-center.p-2.rounded.bg-ds-subtle').classList.remove('bg-ds-subtle');
+    let imagenUsuario = document.querySelector('#website-header > div > div.flex.space-x-2.items-center.justify-end.relative.flex-none.unset_baseline > div.relative.flex.items-center > label.cursor-pointer.flex.items-center.justify-center.p-2 > ds-avatar')
+    if(imagenUsuario){
+      imagenUsuario.setAttribute('size', 'm');
+    }
+    else {
+      console.log('No hay imagen de usuario, por lo que no estamos logeados')
+      console.log(location.href)
+        document.querySelectorAll('a[href="/"]').forEach(a => {
+          a.setAttribute('href', '/pages/landing');
+        });
+        //if(location.href=='https://docland.uscreen.io/')
+        if(location.href=='https://doclandplus.com/')
+          location.href='/pages/landing';
+        else {
+        parts = location.href.split("programs");
+        if (parts.length>1)
+          location.href='/pages/landing';
+        }
+        
+          
+    }
+     
+    //return;
+    const userNamediv = document.getElementById("user_name")
+    if(userNamediv) return;
+    const userNameElement = document.querySelector(SELECTORS.USER_NAME_SELECTOR);
+    if (!userNameElement) {
+      console.log("No hay nombre de usuario")
+    const navBar = document.querySelector("#website-header > div > div.flex.space-x-2.items-center.justify-end.relative.flex-none");
+      if (navBar) {
+      navBar.style.display="";
+      navBar.classList.remove("flex-none")
+      navBar.classList.remove('unset_baseline')
+      }     
+      return;
+    }
+    
+    const userName = userNameElement.innerHTML;
+    console.log('El nombre de usuario que hemos encontrado es ' + userName);
+    
+    const avatarContainers = document.querySelectorAll(SELECTORS.AVATAR_CONTAINER);
+    console.log(avatarContainers.length)
+     let divAvatar;
+    if (avatarContainers.length < 4) return;
+    if (avatarContainers.length < 5) 
+    divAvatar = avatarContainers[3];
+    if (avatarContainers.length > 4) 
+    divAvatar = avatarContainers[4];
+    divAvatar.classList.add('custom-style-avatar-box');
+    
+    if (!divAvatar) return;
+    
+    // Verificar si ya se ha insertado el nombre antes de agregarlo
+    const nameExists = divAvatar.querySelector('.avatar_name') && 
+                      divAvatar.querySelector('.avatar_name').textContent === userName;
+    
+    if (!nameExists) {
+      // Solo insertamos el nombre si no existe ya
+      divAvatar.insertAdjacentHTML("beforeend", `<p id='user_name' class='avatar_name'>${userName}</p>`);
+    }
+  }
+
+  // Modificar el trailer de video
+  function modifyTrailer() {
+    trailer = document.querySelector(SELECTORS.TRAILER);
+    if (!trailer) return;
+    
+    // Eliminar clases de flexbox y añadir clase personalizada
+    if (trailer.children[0]) {
+      trailer.children[0].classList.remove("lg:w-[55%]");
+    }
+    
+    trailer.classList.remove("lg:flex-row", "flex", "flex-col", "gap-x-12");
+    trailer.classList.add("div_nologeado");
+    
+    divDescripcion = document.querySelector("#program_about > div.mt-4.text-ds-small-regular > div")
+    if(divDescripcion)
+      divDescripcion.classList.remove("max-h-[60px]" , "xl:line-clamp-[7]", "xl:max-h-[140px]", "xl:aria-expanded:line-clamp-[11]" ,"xl:aria-expanded:max-h-[220px]", );
+    // Reemplazar el contenido del trailer con una imagen
+    if (trailer.children[0] && trailer.children[0].children[0]) {
+      trailer.children[0].children[0].innerHTML = "";
+    }
+    
+    // Crear un nuevo elemento de imagen
+    const img = document.createElement("img");
+    img.src = "https://coserver-docland.cuevadelmero.duckdns.org/pelicula/" + 
+              window.location.pathname.split('/').pop();
+    
+    const imageContainers = document.querySelectorAll(SELECTORS.TRAILER_IMAGE_CONTAINER);
+    if (imageContainers.length > 1) {
+      imageContainers[1].innerHTML = "";
+      imageContainers[1].appendChild(img);
+      imageContainers[1].classList.add("img_centered");
+    }
+ 
+  }
+
+  // Modificar botones del programa
+  function modifyProgramButtons() {
+    program_buttons = document.getElementById("program_about");
+    if (!program_buttons) return;
+    
+    program_buttons.classList.remove("lg:w-[45%]", "lg:w-2/3", "lg:mt-1");
+    
+    if (programPlayer) {
+      programPlayer.style.display = "block";
+    }
+  }
+
+  // Eliminar restricciones de altura en las descripciones
+  function removeDescriptionHeightLimits() {
+    // Usar un enfoque más simple para seleccionar el elemento
+    const descriptions = document.getElementsByClassName("content-description");
+    if (!descriptions.length) return;
+    
+    // Eliminar todas las clases relacionadas con restricciones de altura
+    const element = descriptions[0];
+    if (element) {
+      element.classList.remove(
+        "line-clamp-3", "max-h-[60px]"
+      );
+      
+      // Eliminar clases con caracteres especiales usando setAttribute
+      const currentClasses = element.getAttribute("class") || "";
+      const newClasses = currentClasses
+        .replace("xl:line-clamp-[7]", "")
+        .replace("xl:max-h-[140px]", "")
+        .replace("xl:aria-expanded:line-clamp-[11]", "")
+        .replace("xl:aria-expanded:max-h-[220px]", "")
+        .replace(/\s+/g, " ").trim();
+      
+      element.setAttribute("class", newClasses);
+    }
+  }
+
+  // Añadir banner de "ENTRA EN ACCIÓN"
+  function addActionBanner() {
+    program_about = document.getElementById("program_about");
+    const patrocinador = document.getElementById("patrocinador");
+    
+    if (program_about && !patrocinador) {
+      program_about.insertAdjacentHTML("afterend", `
+        <div id="patrocinador" class="btn_patrocinador lg:w-4/10 w-full">
+          <div id="txt-entra"><h2>Call to action<h2></div>
+          <a part="button" data-ajax='false' target="_blank" href="https://doclandplus.com/pages/accion">
+            <img src="https://tomoestudio.com/wp-content/uploads/Accion-contra-el-hambre_blanco_PNG-1200x713.png">
+          </a>
+        </div>
+      `);
+      program_about.classList.remove("lg:mb-5");
+    }
+    
+    if (program_about) {
+      program_about.classList.remove("lg:mb-5");
+    }
+
+    if(document.getElementById("program-controller")){
+      console.log("añadiendo mascara")
+      document.getElementById("program-controller").children[0].classList.add("div_mascara")
+    }
+    else {
+      console.log("no añadiendo mascara")
+    }
+    showFecha()
+  }
+
+  // Cambiar texto de "Relacionados" a "En la misma línea"
+  function changeRelatedText() {
+    const relatedTitle = document.querySelector(SELECTORS.RELATED_TITLE);
+    if (relatedTitle) {
+      relatedTitle.innerText = "En la misma línea";
+    }
+  }
+
+  // Ocultar elementos específicos
+  function hideSpecificElements() {
+    let nextVideo=document.getElementsByClassName("program-next-video")[1];
+    if(nextVideo){
+        nextVideo.classList.add("hidden");
+    }  
+    nextVideo=document.getElementsByClassName("program-next-video")[0];
+    if(nextVideo){
+        nextVideo.classList.add("hidden");
+    }    
+
+    const subtitle = document.querySelector(SELECTORS.RELATED_SUBTITLE);
+    if (subtitle) {
+      subtitle.style.display = "none";
+      
+      try {
+        subtitle.parentNode.classList.remove("mt-8");
+      } catch(e) {
+        console.log(e);
+      }
+    }
+  }
+
+  // Eliminar margen superior de 20px
+  function removeTopMargin() {
+    const flexWrap = document.querySelector(".flex.flex-wrap.mt-20.w-full");
+    if (flexWrap) {
+      flexWrap.classList.remove("mt-20");
+    }
+  }
+let clicked=false;
+  // Cambiar texto de "Mostrar más" a "Ver más"
+  function changeShowMoreText() {
+    if(document.querySelector('video-controls')){
+    document.querySelector('video-controls').setAttribute("playing", "")
+    document.querySelector('video-controls').setAttribute("idle", "")
+    }
+    try {
+   document.querySelector('ds-show-more').shadowRoot.querySelectorAll("slot")[1].querySelectorAll("ds-button")[0].shadowRoot.querySelector("button").classList.remove("button")
+   document.querySelector('ds-show-more').shadowRoot.querySelectorAll("slot")[1].querySelectorAll("ds-button")[0].shadowRoot.querySelector("button").classList.add("button")
+   document.querySelector('ds-show-more').shadowRoot.querySelectorAll("slot")[1].querySelectorAll("ds-button")[0].shadowRoot.querySelector("button").style.color="white";
+   if(!clicked){
+   document.querySelector('ds-show-more').shadowRoot.querySelectorAll("slot")[1].querySelectorAll("ds-button")[0].shadowRoot.querySelector("button").click()
+   clicked=true;
+   }
+
+      const showMoreButton = document.querySelector(SELECTORS.SHOW_MORE_BUTTON);
+      if (showMoreButton) {
+        showMoreButton.innerText = "Ver más";
+        
+        if (showMoreButton.button) {
+          showMoreButton.button.style.color = "#939393";
+        }
+      }
+    } catch(error) {
+      console.log("No se encontró el botón 'Mostrar más'");
+    }
+  }
+
+  // FUNCIÓN PARA CREAR EL ICONO DE LUPA Y EL MODAL DE BÚSQUEDA
+  function createSearchIcon() {
+    // Seleccionar el contenedor donde se colocará el icono de lupa
+    const navBar = document.querySelector("#website-header > div > div.flex.space-x-2.items-center.justify-end.relative.flex-none");
+    if (!navBar) return;
+    
+    // Verificar si el botón de búsqueda ya existe para evitar duplicados
+    const searchIcon = document.querySelector("#search-button");
+    if (searchIcon) return;
+    
+    // Crear contenedor para el botón de búsqueda
+    const searchContainer = document.createElement("div");
+    searchContainer.className = "relative mx-4";
+    
+    // Crear el botón de lupa con un icono
+    const searchButton = document.createElement("button");
+    searchButton.id = "search-button";
+    searchButton.innerHTML = "<ds-icon slot='before' name='magnifier' class='text-ds-default' loaded='true'></ds-icon>";
+    searchButton.className = "text-gray-500 text-xl focus:outline-none hover:text-gray-700";
+    
+    // Añadir el botón al contenedor
+    searchContainer.appendChild(searchButton);
+    
+    // Insertar el contenedor en la barra de navegación
+    navBar.append(searchContainer);
+    
+    // Crear el modal de búsqueda
+    createSearchModal(searchButton);
+  }
+
+  // Crear el modal de búsqueda
+  function createSearchModal(searchButton) {
+    // Crear el modal que aparecerá al hacer clic en la lupa
+    const modal = document.createElement("div");
+    modal.className = "modal";
+    modal.id = "modal";
+    
+    // Crear el contenido del modal
+    const modalContent = document.createElement("div");
+    modalContent.className = "modal-busqueda";
+    
+    // Crear el icono de lupa dentro del modal como SVG
+    const searchIconSVG = createSearchSVG();
+    
+    // Crear el campo de entrada de texto para la búsqueda
+    const searchInput = document.createElement("input");
+    searchInput.type = "text";
+    searchInput.placeholder = "Buscar...";
+    searchInput.id = "search-input";
+    
+    // Asignar ID al icono de lupa y añadir elementos al modal
+    searchIconSVG.id = "search-button-2";
+    modalContent.appendChild(searchIconSVG);
+    modalContent.appendChild(searchInput);
+    modal.appendChild(modalContent);
+    
+    // Añadir el modal al body del documento
+    document.body.appendChild(modal);
+    
+    // Configurar eventos para el modal de búsqueda
+    setupSearchEvents(searchButton, searchIconSVG, searchInput, modal);
+  }
+
+  // Crear el SVG del icono de lupa
+  function createSearchSVG() {
+    const searchIconSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    searchIconSVG.setAttribute("width", "24");
+    searchIconSVG.setAttribute("height", "24");
+    searchIconSVG.setAttribute("viewBox", "0 0 24 24");
+    searchIconSVG.setAttribute("fill", "none");
+    searchIconSVG.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    searchIconSVG.style.cursor = "pointer";
+    
+    // Crear el path del SVG (forma de la lupa)
+    const searchIconPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    searchIconPath.setAttribute("fill-rule", "evenodd");
+    searchIconPath.setAttribute("clip-rule", "evenodd");
+    searchIconPath.setAttribute("d", "M16.3049 14.9248C17.367 13.5671 18 11.8575 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18C11.8399 18 13.5348 17.3788 14.8864 16.3348L18.2965 19.7107C18.689 20.0992 19.3222 20.096 19.7107 19.7036C20.0993 19.3111 20.0961 18.6779 19.7036 18.2894L16.3049 14.9248ZM16 10C16 13.3137 13.3137 16 10 16C6.68629 16 4 13.3137 4 10C4 6.68629 6.68629 4 10 4C13.3137 4 16 6.68629 16 10Z");
+    searchIconPath.setAttribute("fill", "black");
+    
+    // Añadir el path al SVG
+    searchIconSVG.appendChild(searchIconPath);
+    
+    return searchIconSVG;
+  }
+
+  // Configurar eventos para el modal de búsqueda
+  function setupSearchEvents(searchButton, searchIconSVG, searchInput, modal) {
+    // Función para realizar la búsqueda
+    function performSearch() {
+      const searchTerm = searchInput.value.trim();
+      if (searchTerm) {
+        // Redirigir a la URL de búsqueda con el término ingresado
+        //window.location.href = `https://docland.uscreen.io/catalog/search?search="${encodeURIComponent(searchTerm)}"`;
+        window.location.href = `https://doclandplus.com/catalog/search?search="${encodeURIComponent(searchTerm)}"`;
+      }
+    }
+    
+    // Mostrar el modal al hacer clic en el icono de lupa del header
+    searchButton.addEventListener("click", function() {
+      modal.style.display = "flex";
+      searchInput.focus();
+    });
+    
+    // Realizar búsqueda al hacer clic en el icono de lupa dentro del modal
+    searchIconSVG.addEventListener("click", performSearch);
+    
+    // Realizar búsqueda al presionar Enter en el campo de búsqueda
+    searchInput.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        performSearch();
+      }
+    });
+    
+    // Cerrar el modal al hacer clic fuera del área de búsqueda
+    window.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  }
+
+  // Función para filtrar contenido basado en una consulta
+  function filterContent(query) {
+    const items = document.querySelectorAll(".text-base.md\\:text-sm.font-normal.leading-tight");
+    items.forEach((item) => {
+      item.style.display = item.textContent.toLowerCase().includes(query.toLowerCase()) ? "block" : "none";
+    });
+  }
+
+  function mostrar_listadoCategorias(){
+// Seleccionamos el segundo <li> del nav
+    const categoriasJSON_OLD = {
+      "categorias": [
+        { "nombre": "Y los más premiados son...", "url": "/categories/category-mck_s9xuvjm" },
+        { "nombre": "Hechos en casa", "url": "/categories/category-cbsn6mbr88s" },
+        { "nombre": "Una mirada incómoda", "url": "/categories/category-xaur-gs6zyc" },
+        { "nombre": "Yo llevo mis propias bolsas al súper", "url": "/categories/category-om7pkpr1jto" },
+        { "nombre": "Historias que te llegarán al corazón", "url": "/categories/category-d-df8kkgorw" },
+        { "nombre": "Tócala de nuevo, Sam", "url": "/categories/category-zkioj3v4n6s" },
+        { "nombre": "Los documentales más icónicos", "url": "/categories/category-wrctcg12bbc" },
+        { "nombre": "Documentales que no puedes perderte", "url": "/categories/category-bprxzodrb_s" }
+      ]
+    };
+    const categoriasJSON = {
+      "categorias": [
+        { "nombre": "Imprescindibles", "url": "/categories/category-psdbhgidrwu" },
+        { "nombre": "Levanta la cabeza: una mirada al mundo", "url": "/categories/category-khvssgtllmo" },
+        { "nombre": "Nuestra casa común: medioambiente y naturaleza", "url": "/categories/category-cbsn6mbr88s" },
+        { "nombre": "Levanta la voz: derechos humanos y desigualdad", "url": "/categories/category-mck_s9xuvjm" },
+        { "nombre": "Lo imposible: historias que inspiran", "url": "/categories/category-xaur-gs6zyc" },
+        { "nombre": "Hechos en Doc Land", "url": "/categories/category-om7pkpr1jto" },
+        { "nombre": "El arte de sentir: cultura y creación", "url": "/categories/category-d-df8kkgorw" },
+        { "nombre": "Empieza por ti: bienestar y salud", "url": "/categories/category-m7kfwucv6dq" },
+        { "nombre": "Tiempos modernos: ciencia y tecnología", "url": "/categories/category-zkioj3v4n6s" },
+        { "nombre": "Más allá del dinero: economía y trabajo", "url": "/categories/category-wrctcg12bbc" },
+        { "nombre": "Mockumentaries: verdades inventadas", "url": "/categories/category-bprxzodrb_s" },
+        { "nombre": "En pocas palabras: grandes cortos documentales", "url": "/categories/category-wbtdwmdhtzs" }
+      ]
+    };    
+    const navItems = document.querySelectorAll('#website-links ul > li');
+    if(navItems[0]){
+      navItems[2].children[0].classList.remove('border-b-4','border-b' )
+      navItems[1].children[0].classList.remove('border-b-4','border-b' )
+      navItems[0].children[0].classList.remove('border-b-4','border-b' )
+    }
+      
+    const categoriaLi = navItems[0];
+
+    // Creamos el contenedor del menú desplegable
+    const menu = document.createElement("div");
+    if(!menu) return
+    menu.classList.add("dropdown-categorias");
+
+    // Rellenamos el menú con los enlaces
+    categoriasJSON.categorias.forEach(cat => {
+      const a = document.createElement("a");
+      a.href = cat.url;
+      a.textContent = cat.nombre;
+      menu.appendChild(a);
+    });
+
+    // Insertamos el menú dentro del <li>
+    if(!categoriaLi) return
+    categoriaLi.style.position = "relative"; // para que el menú se posicione bien
+    categoriaLi.appendChild(menu);
+
+    // Referencia al enlace de Categorías
+    const linkCategorias = categoriaLi.querySelector("a");
+
+    // Mostrar/ocultar menú al hacer clic
+    linkCategorias.addEventListener("click", (e) => {
+      e.preventDefault();
+      menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    });
+
+    // Ocultar menú si se hace clic fuera
+    document.addEventListener("click", (e) => {
+      if (!categoriaLi.contains(e.target)) {
+        menu.style.display = "none";
+      }
+    });
+        // === Seleccionamos el menú móvil ===
+    const mobileNav = document.querySelector('#main-menu nav ul');
+    const mobileLiItems = mobileNav.querySelectorAll('li');
+    const categoriasLi = mobileLiItems[0]; // Segundo <li>: "Categorías"
+
+    // Creamos el submenú oculto
+    const submenu = document.createElement('ul');
+    if(!submenu) return
+    submenu.classList.add('submenu-categorias-mobile');
+    submenu.style.display = 'none';
+    submenu.style.paddingLeft = '1rem';
+    submenu.style.marginTop = '4px';
+
+    categoriasJSON.categorias.forEach(cat => {
+      const li = document.createElement('li');
+      li.className = "text-sm font-normal leading-tight";
+      const a = document.createElement('a');
+      a.className = "block py-2 text-ds-muted hover:underline underline-offset-2";
+      a.href = cat.url;
+      a.textContent = cat.nombre;
+      li.appendChild(a);
+      submenu.appendChild(li);
+    });
+
+    // Insertamos el submenú después del <li> de Categorías
+    categoriasLi.insertAdjacentElement('afterend', submenu);
+
+    // Toggle al hacer clic en "Categorías"
+    const linkCategorias2 = categoriasLi.querySelector('a');
+    linkCategorias2.addEventListener('click', function(e) {
+      e.preventDefault();
+      submenu.style.display = (submenu.style.display === 'none') ? 'block' : 'none';
+    });
+
+  }
+
+function mostrar_verticales() {
+  const BASE_URL = "https://coserver-docland.cuevadelmero.duckdns.org/pelicula/";
+
+  document.querySelectorAll('[data-test="vertical-slide"]').forEach((slide) => {
+    const link = slide.querySelector('a.card-image-container');
+    const img = slide.querySelector('img.card-image');
+
+    if (link && img && !img.classList.contains('img-customized')) {
+      const href = link.getAttribute('href');
+      const match = href.match(/\/programs\/([^?]+)/);
+
+      if (match && match[1]) {
+        const slug = match[1];
+        const newSrc = `${BASE_URL}${slug}?formato=vertical&id=14`;
+        //console.log(newSrc)
+          img.removeAttribute("srcset"); 
+          img.setAttribute("src", newSrc);
+             
+        
+
+
+        // Aumenta la altura +100px (ajustable)
+        //img.style.height = (img.clientHeight + 100) + "px";
+
+        // Ajustes de clase Tailwind
+        //img.classList.remove("aspect-[100/141]");
+        //img.classList.add("h-[400px]");
+        img.classList.remove("aspect-[100/141]");
+        img.classList.add("aspect-[100/195]");
+        // Marca como procesada
+        img.classList.add("img-customized");
+      }
+    }
+  });
+}
+  const patrocinadores = [
+    { src: "https://coserver-docland.cuevadelmero.duckdns.org/assets/patrocinadores/ES_Financiado_por_la_Unión_Europea_RGB_WHITE_Outline .png", alt: "UE", url: "https://culture.ec.europa.eu/" },
+    { src: "https://coserver-docland.cuevadelmero.duckdns.org/assets/patrocinadores/CREA SGR.png", alt: "CREA SGR" , url: "https://www.creasgr.com/es/"},
+    { src: "https://coserver-docland.cuevadelmero.duckdns.org/assets/patrocinadores/Logotipo_del_Gobierno_de_la_Comunidad_de_Madrid.png", alt: "C-MADRID", url: "https://www.comunidad.madrid/transparencia/unidad-organizativa-responsable/direccion-general-cultura-e-industrias-creativas" },
+    { src: "https://coserver-docland.cuevadelmero.duckdns.org/assets/patrocinadores/WAYRA.png", alt: "WAYRA", url: "https://www.wayra.es/" },
+    { src: "https://coserver-docland.cuevadelmero.duckdns.org/assets/patrocinadores/PRTR_recortado.png", alt: "PRTR" , url: "https://planderecuperacion.gob.es/"}
+  ];
+function insertarPatrocinadores(patrocinadores) {
+  const footer = document.querySelector('footer');
+  if (!footer) return;
+
+  // Verifica si ya existe el contenedor con un ID o clase específica
+  if (footer.querySelector('#contenedor-patrocinadores')) return;
+
+  const contenedor = document.createElement('div');
+  contenedor.id = 'contenedor-patrocinadores';
+  contenedor.className = "container w-full mt-6 flex justify-center items-center space-x-6 flex-wrap";
+
+  patrocinadores.forEach(pat => {
+
+    const a = document.createElement('a');
+    a.href = pat.url;
+    a.target = '_blank'; // Opcional: abre en nueva pestaña
+    a.rel = 'noopener noreferrer'; // Seguridad
+
+    const img = document.createElement('img');
+    img.src = pat.src;
+    img.alt = pat.alt || '';
+    img.className = "h-12 w-auto object-contain patrocinador-logo";
+    a.appendChild(img);
+    contenedor.appendChild(a);    
+    //contenedor.appendChild(img);
+  });
+
+  footer.appendChild(contenedor);
+  reorganizarFooter();
+}
+function reorganizarFooter() {
+  const footer = document.querySelector("footer");
+  if (!footer) return;
+
+  // 1. Contenedor original de enlaces
+  const enlacesContainer = footer.querySelector(
+    ".flex.flex-wrap.justify-center.items-center"
+  );
+  if (!enlacesContainer) return;
+
+  // 2. Contenedor de redes sociales
+  const redesContainer = footer.querySelector(
+    ".flex.justify-center.space-x-4"
+  );
+  if (!redesContainer) return;
+
+  // 3. Eliminar contenido previo
+  enlacesContainer.innerHTML = "";
+
+  // 4. Reasignar clases para alinear correctamente
+  enlacesContainer.className =
+    "w-full flex flex-wrap justify-between items-center";
+
+  // 5. Crear grupo de enlaces
+  const grupoEnlaces = document.createElement("div");
+  grupoEnlaces.className =
+    "flex flex-wrap gap-x-4 gap-y-2 items-center text-sm text-ds-muted";
+
+  const enlaces = [
+    { label: "© 2025 Doc Land Group", href: null },
+    { label: "Términos", href: "/terms" },
+    { label: "Privacidad", href: "/privacy" },
+    { label: "Comprar tarjeta regalo", href: "/gift_cards/new" },
+    { label: "Canjear tarjeta regalo", href: "/gift_card_redemptions/new" },
+    { label: "Nosotros", href: "https://doclandfilms.com/" },
+  ];
+
+  enlaces.forEach((item, i) => {
+    if (i > 0) {
+      const separador = document.createElement("span");
+      separador.textContent = "∙";
+      grupoEnlaces.appendChild(separador);
+    }
+
+    if (item.href) {
+      const a = document.createElement("a");
+      a.href = item.href;
+      a.textContent = item.label;
+      a.className = "hover:underline underline-offset-2";
+      grupoEnlaces.appendChild(a);
+    } else {
+      const span = document.createElement("span");
+      span.textContent = item.label;
+      grupoEnlaces.appendChild(span);
+    }
+  });
+
+  // 6. Insertar grupo de enlaces y redes
+  enlacesContainer.appendChild(grupoEnlaces);
+
+  redesContainer.classList.remove("justify-center");
+  redesContainer.classList.add("ml-auto");
+  enlacesContainer.appendChild(redesContainer);
+
+  // 7. Alinear logos de patrocinadores a la izquierda
+  const patrocinadores = document.getElementById("contenedor-patrocinadores");
+  if (patrocinadores) {
+    patrocinadores.classList.remove("justify-center");
+    patrocinadores.classList.add("justify-start", "px-[3%]");
+  }
+}
+
+function reorganizarFooter_() {
+  const footer = document.querySelector("footer");
+  if (!footer) return;
+
+  // 1. Contenedor original de enlaces
+  const enlacesContainer = footer.querySelector(
+    ".flex.flex-wrap.justify-center.items-center"
+  );
+  if (!enlacesContainer) return;
+
+  // 2. Contenedor de redes sociales
+  const redesContainer = footer.querySelector(
+    ".flex.justify-center.space-x-4"
+  );
+  if (!redesContainer) return;
+
+  // 3. Eliminar contenido previo
+  enlacesContainer.innerHTML = "";
+
+  // 4. Crear contenedor con justify-between
+  enlacesContainer.className =
+    "w-full flex flex-wrap justify-between items-center";
+
+  // 5. Grupo de enlaces alineados
+  const grupoEnlaces = document.createElement("div");
+  grupoEnlaces.className =
+    "flex flex-wrap gap-x-4 gap-y-2 items-center text-sm text-ds-muted";
+
+  const enlaces = [
+    { label: "© 2025 Doc Land Group", href: null },
+    { label: "Términos", href: "/terms" },
+    { label: "Privacidad", href: "/privacy" },
+    { label: "Comprar tarjeta regalo", href: "/gift_cards/new" },
+    { label: "Canjear tarjeta regalo", href: "/gift_card_redemptions/new" },
+    { label: "Nosotros", href: "https://doclandfilms.com/" },
+  ];
+
+  enlaces.forEach((item, i) => {
+    if (i > 0) {
+      const separador = document.createElement("span");
+      separador.textContent = "∙";
+      grupoEnlaces.appendChild(separador);
+    }
+
+    if (item.href) {
+      const a = document.createElement("a");
+      a.href = item.href;
+      a.textContent = item.label;
+      a.className = "hover:underline underline-offset-2";
+      grupoEnlaces.appendChild(a);
+    } else {
+      const span = document.createElement("span");
+      span.textContent = item.label;
+      grupoEnlaces.appendChild(span);
+    }
+  });
+
+  // 6. Añadir grupo de enlaces al contenedor
+  enlacesContainer.appendChild(grupoEnlaces);
+
+  // 7. Mover redes al extremo derecho
+  redesContainer.classList.remove("justify-center");
+  redesContainer.classList.add("ml-auto");
+  enlacesContainer.appendChild(redesContainer);
+}
+
+</script>
+<style>
+  /* Estilos generales para las tarjetas */    .tarjeta {      background-color: #1a1a1a;      border-radius: 8px;      padding: 20px;      margin-bottom: 20px;      color: #fff;      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);    }        /* Estilo para títulos */    .section-title {      font-size: 18px;      font-weight: bold;      margin-bottom: 15px;      color: #fff;    }        /* Estilo para párrafos */    p {      color: #fff;      margin-bottom: 10px;      line-height: 1.5;    }  
+.tarjetax{
+margin-top: 20px;
+}
+.glide__tracks{
+    height: 48vw;
+    max-height: 80vh;
+    }
+
+#bloque-listado-videos{
+  margin-bottom: 2rem;
+}
+.div_derecha{
+display: flex;
+justify-content: space-between;
+}
+#website-links > ul a {
+  color: #a0a0a0;
+}
+.tarjeta h2{
+  color: #a0a0a0;
+}
+#critica h2{
+  text-align: right;
+}
+#patrocinador h2{
+  text-align: right;
+}
+@media (min-width: 768px) {
+  #critica{
+  margin-top: 0rem;
+  }
+}
+.img_patro{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+} 
+#bloque-generado-desde-json{
+align-items: stretch;
+    display: flex;
+}
+@media (max-width: 768px) {
+#the_program_about_{
+  margin-bottom: 20px !important;
+}
+}
+#txt-entra{
+  width: 100%;
+  height: 100%;
+}
+.sinposis_p{
+  padding-top: 0.5rem !important;
+}
+#txt-entra{
+  margin-bottom: 1rem;
+}
+.listado-dialogos{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: stretch;
+    padding-left: 15vw;
+}
+  @media (max-width: 768px) {
+.listado-dialogos{
+     padding-left: 0vw;
+}
+  }
+.aspect-\[100\/195\] {
+    aspect-ratio: 100 / 195;
+}
+
+.text-ds-default.w-6 {
+    visibility: visible !important;
+    box-shadow: 0px 0px 0px rgb(43 43 43 / 62%) !important;
+
+    //background: transparent !important;
+    transition: transform 0.0s ease-in-out !important;
+}
+
+.info-badge {
+  display: inline-block;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  padding: 2px 6px;
+  margin: 2px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.info-badges {
+  margin-top: 10px;
+}  
+  .date_title{
+    font-size: 0.9rem;
+  }
+  #category_filters{
+    display: none !important;
+  }
+.dropdown-categorias {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #1f1f1f;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    padding: 10px 0;
+    display: none;
+    min-width: 220px;
+    z-index: 1000;
+  }
+
+  .dropdown-categorias a {
+    display: block;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: 400;
+  }
+
+  .dropdown-categorias a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .movie-poster {
+    filter: grayscale(1);
+    transition: all 0.3s ease;
+  }
+  .movie-poster:hover {
+    filter: grayscale(0);
+  }
+
+  .carrusel-wrapper {
+    position: relative;
+  }
+
+  .flecha {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    /*background: rgba(0, 0, 0, 0.5);*/
+    /*background: transparent;*/
+    background: #858585c7;
+    color: #a0a0a0;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0rem 0.5rem;
+    cursor: pointer;
+    z-index: 10;
+    display: none;
+    border-radius: 4px;
+  }
+  .flecha:hover{
+    transform: scale(1.5);
+    top: 41.6%;
+  }
+.glide__arrow:hover {
+    transform: scale(1.1) !important;
+    /*color: white !important;*/
+    transform: scale(1.1) translateY(-30%) !important;
+}
+  .flecha.izquierda {
+    left: 0;
+  }
+
+  .flecha.derecha {
+    right: 0;
+  }
+
+  @media (min-width: 768px) {
+    .flecha {
+      display: block;
+    }
+  }
+
+  .ocultar-scroll {
+    scrollbar-width: none;
+  }
+
+  .ocultar-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Estilos base */
+  body {
+    background: black;
+  }
+
+  /* Estilos para elementos de texto y contenedores */
+  .unset_baseline {
+    /*align-items: baseline !important;*/
+  }
+
+  .avatar_name {
+    background: white;
+    color: black;
+    padding: 0.1rem 0.3rem;
+    border-radius: 2rem;
+    font-size: 0.7rem;
+  }
+
+  .custom-style-avatar-box {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .content { 
+    background: red;
+  }
+  
+  div.content.collapsed:after {
+    max-height: 300px !important;
+    background: red !important;
+  }
+  
+  .img_centered {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .flex.space-x-2.items-center.justify-end.relative.flex-none {
+    display: none;
+  }
+  
+  .glide__bullet {
+    margin: 0 .65em;
+  }
+  @media (max-width: 640px) {
+  .glide__bullet {
+    margin: 0.25em;
+  }
+}
+  .btn_vermas {
+    color: #939393;
+  }
+
+  .text-ds-title-2-semi-bold {
+    margin-top: 2rem !important;
+  }
+  
+  /* Media queries para diseño responsive */
+  @media (min-width: 1024px) {
+    .lg\:w-4\/10 {
+      width: 40%;
+    }
+    
+    .lg\:w-6\/10 {
+      width: 60%;
+    }
+  }
+  
+  /* Estilos de texto y colores */
+  .text-primary {
+    --tw-text-opacity: 1;
+    color: white;
+  }
+  
+  .border-primary {
+    --tw-border-opacity: 1;
+    border-color: rgb(255 255 255);
+  }
+  
+  /* Estilos de fondo y gradientes */
+  .bg-ds-main {
+    background: linear-gradient(
+      to bottom, 
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 1) 30%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    border-width: 0;
+  }
+  
+  .bg-ds-overlays {
+    background: transparent !important;
+    gap: 2rem;
+  }
+
+  .opacity-15 {
+    opacity: .85;
+  }
+
+  .bg-ds-fg-muted {
+    background-color: #ffffff;
+  }
+
+  /* Estilos del carrusel */
+  .glide__slides {
+    display: flex;
+    justify-content: center !important;
+    /*align-items: center;*/
+    align-items: baseline;
+    font-size: 1.5rem;
+    //width: 100% !important;
+    //height: 60vw;
+    //max-height: 60vh;
+    border-radius: 8px;
+  }
+
+  .glide__slides img {
+    //width: auto;
+    //height: 100%;
+    width: 100% !important;
+  }
+  
+  .glide__slide {
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+    font-size: 1.5rem;
+    //height: 60vw;
+    //max-height: 60vh;
+    border-radius: 8px;
+  }
+   
+  .glide__slide img {
+    width: auto;
+    height: 100%;
+    //max-height: 60vh;
+  }
+
+  .slide-content {
+    position: absolute;
+    max-width: 60%;
+    z-index: 10;
+    padding-inline-start: 6rem;
+  }
+
+  .slide-content h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .slide-content p,
+  .slide-content h1 {
+    margin-top: -1rem;
+    padding-inline-start: 6rem;
+    background: linear-gradient(to right,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0) 100%);
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+
+  /* Botones del carrusel */
+  .glide__arrow {
+    /*background: none;*/
+    background: #858585c7;
+    border: none;
+    /*color: #fff;*/
+    color: #a0a0a0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+    /*border-radius: 50%;*/
+    border-radius: 4px;
+    box-shadow: 0 .0em .0em 0 rgba(0, 0, 0, 0); 
+    text-shadow: 0 .0em .0em rgba(0, 0, 0, 0);
+  }
+  .glide__bullet {
+      width: 12px;
+      height: 12px;
+    }
+  .glide__arrow--left {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .glide__arrow--right {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .glide__arrow:hover {
+    /*color: #f00;*/
+    color: #a0a0a0 !important;
+  }
+
+  /* Ocultar elementos específicos */
+  .block.w-\[3\.75rem\].h-\[3\.75rem\].xl\:w-\[5\.75rem\].xl\:h-\[5\.75rem\].rounded-full.bg-primary.lg\:bg-ds-inverted.group\/button.relative.overflow-hidden {
+    display: none;
+  }
+
+  .text-ds-muted.dark\:text-ds-default.hidden.md\:block {
+    display: none !important;
+  }
+
+  .bg-black.p-8.overflow-x-auto {
+    padding-top: 0px;
+  }
+
+  .category-see-all.flex-none {
+    display: none !important;
+  }
+
+  .content-row {
+    background: black;
+  }
+
+  .catalog-area,
+  .dark .catalog-area {
+    background-color: black;
+  }
+  
+  #catalog_filters {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+  }
+  
+  .text-ds-default.w-6 {
+    visibility: visible !important;
+    box-shadow: 3px 5px 2px rgb(43 43 43 / 62%);
+    //border-radius: 50%;
+    border-radius: 4px;
+    background: #858585c7;
+    transition: transform 0.3s ease-in-out;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .text-ds-default.w-6:hover {
+    transform: scale(1.5);
+  }
+
+  .bg-ds-default {
+    background-color: black;
+  }
+
+  bg-black.p-8.overflow-x-auto {
+    padding-top: 0px !important;
+  }
+
+  #website-links {
+    margin-left: unset !important;
+  }
+  
+  .themeless .container {
+    max-width: 100%;
+  }
+  
+  .text-docland {
+    font-size: 2.5rem;
+    margin-right: 2rem;
+    font-weight: 1000 !important; 
+  }
+
+  .bg-black.p-8.overflow-x-auto {
+    padding-top: 0px !important;
+  }
+  
+  /* Estilos del landing */
+  .landing-container {
+    background-image: url('https://coserver-docland.cuevadelmero.duckdns.org/assets/docland_fondo_landing.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: flex;
+    flex-direction: column;
+    max-height: 900px;
+  }
+
+  .content-wrapper {
+    position: relative;
+    margin-top: auto;
+    padding-bottom: 4rem;
+    z-index: 1;
+    width: 100%;
+  }
+
+  /* Responsive para móvil */
+  @media (max-width: 768px) {
+    .landing-container {
+      min-height: 400px;
+    }
+    
+    .content-wrapper {
+      padding-bottom: 2rem;
+    }
+  }
+
+  /* Estilos para elementos específicos */
+  .btn_patrocinador {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    /*margin-top: 1rem;*/
+  }
+  
+  .div_nologeado {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  #patrocinador img {
+    max-height: 13vh;
+  }
+  
+  /* Cambiar el color del texto "Mostrar más" */
+  span.border {
+    color: white;
+  }
+  
+  #catalog > div.h-\[25rem\].w-full.flex.flex-col.justify-center.items-center.bg-ds-overlay {
+    display: none;
+  }
+  
+  /* Estilo para el modal de búsqueda */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  }
+
+  .modal-busqueda {
+    position: absolute;
+    display: flex;
+    gap: 12px;
+    padding: 20px;
+    border-radius: 3px;
+    background-color: white;
+    top: 18%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    min-width: 300px;
+    max-width: 600px;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-busqueda input {
+    color: black;
+    border: none;
+    font-size: 17px;
+    padding: 8px;
+    flex-grow: 1;
+  }
+
+  #search-button-2 {
+    cursor: pointer;
+  }
+
+.the_white {
+  background-color: #2a9d8f !important;
+  color: #ffffff !important;
+  font-weight: bold;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+#program_resources {
+  display: none;
+}
+.uscreen-block{
+  display: none !important;
+}
+a.underline{
+  color: #9d9d9d !important;
+}
+.div_mascara {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  max-width: 100%;
+
+  /* Máscara: solo los últimos 100px tienen un degradado de negro a transparente */
+  -webkit-mask-image: linear-gradient(to bottom, #000000 0px, #000000 95%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000000 0px, #000000 95%, transparent 100%);
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+.logo_ong {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+.custom-ayuda-logo img{
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+[name="chevron-right"] {
+  color: #a0a0a0;
+}
+[name="chevron-left"] {
+  color: #a0a0a0;
+}
+#website-links li {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+#website-links li a{
+padding-left: 1rem;
+padding-right: 0rem;
+}
+#store-logo>img {
+    max-height: 5rem;
+    max-width: 30rem;
+
+}
+.flex.justify-center.max-w-3xl.max-h-12{
+max-height: 5rem;
+}
+.flex.sm\:justify-start.max-w-3xl.max-h-12 {
+  max-height: 5rem;
+}
 </style>
+
+<style>
+  /* Contenedor principal del footer - una sola línea */
+  .flex.flex-wrap.justify-center.items-center.space-y-2.space-x-2 {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    white-space: nowrap;
+  }
+  .flex.flex-wrap.justify-center.items-center.space-y-2.space-x-2 > * {
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+  .flex.flex-wrap.justify-center.items-center.space-y-2.space-x-2 > *:last-child {
+    display: none;
+}
+.container.flex.justify-between.items-center.my-auto{
+  margin-top: 2rem;
+}
+.patrocinador-logo {
+  opacity: 0.7;
+  height: 35px;
+}
+
+.flex.justify-center.space-x-4.rtl\:space-x-reverse {
+  opacity: 0.7;
+}
+
+
+/* Estructura grid para las dos filas */
+.film-description-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.film-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+}
+
+.film-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Anchos específicos para cada columna */
+.sinopsis-col {
+  flex: 0 0 calc(60% - 10px); /* 60% menos la mitad del gap */
+}
+
+.patrocinador-col {
+  flex: 0 0 calc(40% - 10px); /* 40% menos la mitad del gap */
+}
+
+.direccion-col {
+  flex: 0 0 calc(40% - 10px); /* 40% menos la mitad del gap */
+}
+
+.critica-col {
+  flex: 0 0 calc(60% - 10px); /* 60% menos la mitad del gap */
+}
+
+/* Responsive - en móvil todos a 100% */
+@media (max-width: 768px) {
+  .sinopsis-col,
+  .patrocinador-col,
+  .direccion-col,
+  .critica-col {
+    flex: 0 0 100%;
+  }
+  
+  .film-row {
+    gap: 15px;
+  }
+}
+
+/* Asegurar que las tarjetas ocupen todo el espacio disponible */
+.film-col > .tarjeta {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mantener tus estilos existentes para patrocinador y crítica */
+#critica h2 {
+  text-align: right;
+}
+
+#patrocinador h2 {
+  text-align: right;
+}
+
+.img_patro {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+}
+.flex-60 {
+  flex: 0 0 60%;
+}
+
+.flex-40 {
+  flex: 0 0 40%;
+}
+.hmaxs{
+  height: 100% !important;
+  
+    margin-bottom: 0px;
+
+}
+.items-stretch-force {
+  align-items: stretch !important;
+}
+.tarjetaPatrocinador {
+    margin-bottom: 0px;
+}
+</style>
+
